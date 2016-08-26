@@ -2,25 +2,25 @@
 [TOC]
 
 
-# network3.pyÄ£¿é
+# 1.network3.pyæ¨¡å—
 
-## network3.pyÄ£¿é½á¹¹
+## 1.1 network3.pyæ¨¡å—ç»“æ„
 
-- ¸ÃÄ£¿é°üº¬Ò»¸öÍøÂçÀàNeworkºÍÈı¸öÍøÂçlayerÀà£¨·Ö±ğÎªConvPoolLayerÀà/FulllyConnectedLayerÀà/SoftmaxLayerÀà£©
-- ¸ÃÄ£¿é°üº¬5¸öº¯Êı
+- è¯¥æ¨¡å—åŒ…å«ä¸€ä¸ªç½‘ç»œç±»Neworkå’Œä¸‰ä¸ªç½‘ç»œlayerç±»ï¼ˆåˆ†åˆ«ä¸ºConvPoolLayerç±»/FulllyConnectedLayerç±»/SoftmaxLayerç±»ï¼‰
+- è¯¥æ¨¡å—åŒ…å«5ä¸ªå‡½æ•°
 	- linear
 	- RelU
 	- size
 	- laod_data_shared
 	- dropout_layer
-- Í¬Ê±£¬¸ÃÄ£¿é»¹°üº¬Ò»¸ö±äÁ¿£ºGPU£¬È¡ÖµÎªFalse»òÕßTrue
+- åŒæ—¶ï¼Œè¯¥æ¨¡å—è¿˜åŒ…å«ä¸€ä¸ªå˜é‡ï¼šGPUï¼Œå–å€¼ä¸ºFalseæˆ–è€…True
 
 
 
 
-# ´úÂëÊ¹ÓÃ¾ÙÀı
-## ´´½¨Ò»¸öNetworkÀàµÄ¶ÔÏó
-ÏÂÃæÓï¾ä´´½¨Ò»¸öNerworkÀàµÄ¶ÔÏónet£¬»òÕßËµÊÇ£ºnetÊÇÒ»¸öÖ¸ÏòNerworkÀàµÄ¶ÔÏó
+# 2. ä»£ç ä½¿ç”¨ä¸¾ä¾‹
+## 2.1 åˆ›å»ºä¸€ä¸ªNetworkç±»çš„å¯¹è±¡
+ä¸‹é¢è¯­å¥åˆ›å»ºä¸€ä¸ªNerworkç±»çš„å¯¹è±¡netï¼Œæˆ–è€…è¯´æ˜¯ï¼šnetæ˜¯ä¸€ä¸ªæŒ‡å‘Nerworkç±»çš„å¯¹è±¡
 
 ```
 net = Network([
@@ -28,35 +28,35 @@ net = Network([
         SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
 ```
 
-## NetworkÀà¶ÔÏóĞèÒªµÄÊäÈë
-¸ÃÀàĞèÒªÁ½¸ö²ÎÊı£º
-- µÚÒ»¸ö²ÎÊıÊÇÒ»¸ölistÊı¾İ£¬ËüÃèÊöÁËÍøÂçµÄ½á¹¹£¬¸ÃlistµÄÃ¿¸ö²ÎÊı·Ö±ğÄ³Ò»²ãµÄÀàµÄ¶ÔÏó£¬ÀıÈç£¬ÉÏÃæ´úÂëÖĞ
-	- list[0]ÎªFullyConnectedLayerÀàµÄ¶ÔÏó
-        - list[0]ÎªSoftmaxLayerÀàµÄ¶ÔÏó
-- µÚ¶ş¸ö²ÎÊıÎªÒ»¸ö³£Êı£¬ÓÃÀ´Ö¸¶¨mini_batch_sizeµÄ´óÑ§
+## 2.2 Networkç±»éœ€è¦çš„è¾“å…¥
+è¯¥ç±»éœ€è¦ä¸¤ä¸ªå‚æ•°ï¼š
+- ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯ä¸€ä¸ªlistæ•°æ®ï¼Œå®ƒæè¿°äº†ç½‘ç»œçš„ç»“æ„ï¼Œè¯¥listçš„æ¯ä¸ªå‚æ•°åˆ†åˆ«æŸä¸€å±‚çš„ç±»çš„å¯¹è±¡ï¼Œä¾‹å¦‚ï¼Œä¸Šé¢ä»£ç ä¸­
+	- list[0]ä¸ºFullyConnectedLayerç±»çš„å¯¹è±¡
+        - list[0]ä¸ºSoftmaxLayerç±»çš„å¯¹è±¡
+- ç¬¬äºŒä¸ªå‚æ•°ä¸ºä¸€ä¸ªå¸¸æ•°ï¼Œç”¨æ¥æŒ‡å®šmini_batch_sizeçš„å¤§å­¦
 
-## NetworkÀàµÄ__init__º¯Êı£¨¹¹Ôìº¯Êı£©
-- self£ºÖ¸Ïò¸ÃÀàµÄÒ»¸öÊµÀı»¯¶ÔÏó£¬¶Ô±¾Àı¶øÑÔ£¬selfÆäÊµ¾ÍÊÇÖ¸Ïònet¶ÔÏó
-- ÎªselfµÄÏà¹Ø²ÎÊı¸³Öµ
-	- self.layers£º´æ·ÅµÄÊÇÍøÂçµÄ½á¹¹£¬ÎªÒ»¸ölist
-	- mini_batch_size£ºmini_batchµÄ³ß´ç
-	- params£ºÍøÂç¸÷²ãµÄ²ÎÊı£¬ÊÇÒ»¸ölist£¬ÆäÖĞ£¬Ã¿¸öÔªËØ»¹ÊÇÒ»¸ölist£¨´æ·Å¸Ã²ãµÄweightsºÍbias£©
-	- x£ºtheanoµÄ¾ØÕóÕ¼Î»·û
-	- y£ºtheanoµÄÏòÁ¿Õ¼Î»·û
-	- output£ºÍøÂç³õÊ¼Êä³ö£¨ÎŞdropout£©
-	- output_dropout£ºÍøÂç³õÊ¼Êä³ö£¨ÓĞdropout£©
+## 2.3 Networkç±»çš„__init__å‡½æ•°ï¼ˆæ„é€ å‡½æ•°ï¼‰
+- selfï¼šæŒ‡å‘è¯¥ç±»çš„ä¸€ä¸ªå®ä¾‹åŒ–å¯¹è±¡ï¼Œå¯¹æœ¬ä¾‹è€Œè¨€ï¼Œselfå…¶å®å°±æ˜¯æŒ‡å‘netå¯¹è±¡
+- ä¸ºselfçš„ç›¸å…³å‚æ•°èµ‹å€¼
+	- self.layersï¼šå­˜æ”¾çš„æ˜¯ç½‘ç»œçš„ç»“æ„ï¼Œä¸ºä¸€ä¸ªlist
+	- mini_batch_sizeï¼šmini_batchçš„å°ºå¯¸
+	- paramsï¼šç½‘ç»œå„å±‚çš„å‚æ•°ï¼Œæ˜¯ä¸€ä¸ªlistï¼Œå…¶ä¸­ï¼Œæ¯ä¸ªå…ƒç´ è¿˜æ˜¯ä¸€ä¸ªlistï¼ˆå­˜æ”¾è¯¥å±‚çš„weightså’Œbiasï¼‰
+	- xï¼štheanoçš„çŸ©é˜µå ä½ç¬¦
+	- yï¼štheanoçš„å‘é‡å ä½ç¬¦
+	- outputï¼šç½‘ç»œåˆå§‹è¾“å‡ºï¼ˆæ— dropoutï¼‰
+	- output_dropoutï¼šç½‘ç»œåˆå§‹è¾“å‡ºï¼ˆæœ‰dropoutï¼‰
 
 
-## FullyConnectedLayerÀàºÍSoftmaxLayerÀà
+## 2.4 FullyConnectedLayerç±»å’ŒSoftmaxLayerç±»
 
-ÕâÁ½¸öÀà¶¼¶¨ÒåÁËÒ»¸öµ¥²ãÍøÂç£¬ËüÃÇ¶¼¾ßÓĞÈı¸ö·½·¨
-- __init__£ºÍøÂçµÄ¹¹Ôìº¯Êı 
-- set_input£ºÉèÖÃÍøÂçÊäÈë£¬²¢¼ÆËãÍøÂ·µÄÊä³ö
-- accuracy£º¼ÆËãÍøÂçµÄ¾«¶È
+è¿™ä¸¤ä¸ªç±»éƒ½å®šä¹‰äº†ä¸€ä¸ªå•å±‚ç½‘ç»œï¼Œå®ƒä»¬éƒ½å…·æœ‰ä¸‰ä¸ªæ–¹æ³•
+- __init__ï¼šç½‘ç»œçš„æ„é€ å‡½æ•° 
+- set_inputï¼šè®¾ç½®ç½‘ç»œè¾“å…¥ï¼Œå¹¶è®¡ç®—ç½‘è·¯çš„è¾“å‡º
+- accuracyï¼šè®¡ç®—ç½‘ç»œçš„ç²¾åº¦
 
-### FullyConnectedLayerµÄset_inpt·½·¨
-·Ö±ğ¼ÆËãÍøÂçÔÚÎŞdropoutºÍÓĞdropoutÏÂµÄÊä³ö
-- self.output£ºÎŞdropoutÏÂµÄ¸ÃlayerµÄactivations
-- self.y_out£ºÎŞdropoutÏÂµÄ¸ÃlayerµÄÊä³ölabels
-- self.inpt_dropout£ºÓĞdropoutÏÂµÄ¸ÃlayerµÄÊäÈë£¨¼´¶Ô²»ĞèÒªµÄÊäÈëneuronsÖ±½Ó¸³ÖµÎª0£©
-- self.output_dropout£ºÓĞdropoutÏÂµÄ¸ÃlayerµÄactivations
+### FullyConnectedLayerçš„set_inptæ–¹æ³•
+åˆ†åˆ«è®¡ç®—ç½‘ç»œåœ¨æ— dropoutå’Œæœ‰dropoutä¸‹çš„è¾“å‡º
+- self.outputï¼šæ— dropoutä¸‹çš„è¯¥layerçš„activations
+- self.y_outï¼šæ— dropoutä¸‹çš„è¯¥layerçš„è¾“å‡ºlabels
+- self.inpt_dropoutï¼šæœ‰dropoutä¸‹çš„è¯¥layerçš„è¾“å…¥ï¼ˆå³å¯¹ä¸éœ€è¦çš„è¾“å…¥neuronsç›´æ¥èµ‹å€¼ä¸º0ï¼‰
+- self.output_dropoutï¼šæœ‰dropoutä¸‹çš„è¯¥layerçš„activations
