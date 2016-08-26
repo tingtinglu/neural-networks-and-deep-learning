@@ -1,7 +1,4 @@
-
-[TOC]
-
-
+﻿
 # 1.network3.py模块
 
 ## 1.1 network3.py模块结构
@@ -46,7 +43,6 @@ net = Network([
 	- output：网络初始输出（无dropout）
 	- output_dropout：网络初始输出（有dropout）
 
-
 ## 2.4 FullyConnectedLayer类和SoftmaxLayer类
 
 这两个类都定义了一个单层网络，它们都具有三个方法
@@ -54,9 +50,21 @@ net = Network([
 - set_input：设置网络输入，并计算网路的输出
 - accuracy：计算网络的精度
 
+另外，SoftmaxLayer类多了一个cost方法：用来计算cost function取值，使用的是log-likelihood cost
+
 ### FullyConnectedLayer的set_inpt方法
 分别计算网络在无dropout和有dropout下的输出
 - self.output：无dropout下的该layer的activations
 - self.y_out：无dropout下的该layer的输出labels
 - self.inpt_dropout：有dropout下的该layer的输入（即对不需要的输入neurons直接赋值为0）
 - self.output_dropout：有dropout下的该layer的activations
+
+## 2.5 Network类中的SGD方法
+- 输入：
+	- 训练数据集
+	- epoches个数
+	- mini_batch大小
+	- 校验集
+	- 测试集
+- 注：有一个默认的输入，类的self！不需要调用该方法时指定，self中已经存储了网路的各种参数！在SGD中直接利用self中内容，直接进行SGD相关计算就可以了！
+

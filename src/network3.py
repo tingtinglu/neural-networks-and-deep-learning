@@ -1,3 +1,5 @@
+# _*_ coding:UTF-8 _*_  # 此处加入中文编码说明
+
 """network3.py
 ~~~~~~~~~~~~~~
 
@@ -26,6 +28,7 @@ implementation of dropout (https://github.com/mdenil/dropout ), and
 from Chris Olah (http://colah.github.io ).
 
 """
+
 
 #### Libraries
 # Standard library
@@ -103,16 +106,18 @@ class Network(object):
     def SGD(self, training_data, epochs, mini_batch_size, eta,
             validation_data, test_data, lmbda=0.0):
         """Train the network using mini-batch stochastic gradient descent."""
+
+        # 将数据集分为x/y两部分：共三个数据集！
         training_x, training_y = training_data
         validation_x, validation_y = validation_data
         test_x, test_y = test_data
 
-        # compute number of minibatches for training, validation and testing
+        # 分别计算三个数据集的minibatch个数
         num_training_batches = size(training_data)/mini_batch_size
         num_validation_batches = size(validation_data)/mini_batch_size
         num_test_batches = size(test_data)/mini_batch_size
 
-        # define the (regularized) cost function, symbolic gradients, and updates
+        # 符号定义：define the (regularized) cost function, symbolic gradients, and updates
         l2_norm_squared = sum([(layer.w**2).sum() for layer in self.layers])
         cost = self.layers[-1].cost(self)+\
                0.5*lmbda*l2_norm_squared/num_training_batches
@@ -235,40 +240,53 @@ class ConvPoolLayer(object):
 
 class FullyConnectedLayer(object):
 
+    # FullyConnectedLayer类的构造函数，主要是对fcLayer的相关参数进行初始化
     def __init__(self, n_in, n_out, activation_fn=sigmoid, p_dropout=0.0):
-        self.n_in = n_in
-        self.n_out = n_out
-        self.activation_fn = activation_fn
-        self.p_dropout = p_dropout
-        # Initialize weights and biases
-        self.w = theano.shared(
+        self.n_in = n_in  # 输入端neurons个数
+        self.n_out = n_out  # 输出端neurons个数
+        self.activation_fn = activation_fn  # 激活函数类型
+        self.p_dropout = p_dropout # dropout比例，是一个[0,1]之间的数，默认情况下是0.0
+        self.w = theano.shared(    # 对该fcLayer的weights进行初始化
             np.asarray(
                 np.random.normal(
                     loc=0.0, scale=np.sqrt(1.0/n_out), size=(n_in, n_out)),
                 dtype=theano.config.floatX),
             name='w', borrow=True)
-        self.b = theano.shared(
+        self.b = theano.shared(    # 对该fcLayer的bias进行初始化
             np.asarray(np.random.normal(loc=0.0, scale=1.0, size=(n_out,)),
                        dtype=theano.config.floatX),
             name='b', borrow=True)
-        self.params = [self.w, self.b]
+        self.params = [self.w, self.b]  # 将该fcLayer的初始化weights和bias存放在一个tuple中
 
+    # 设置fcLayer的输入端结构，并计算FullyConnectedLayer的输出
     def set_inpt(self, inpt, inpt_dropout, mini_batch_size):
+
+        # --无dropout情况--
+        # 根据输入数据的mini_batch_size和输入端的neuron个数，对输入数据的形状进行reshape
         self.inpt = inpt.reshape((mini_batch_size, self.n_in))
+        # 计算该输入对应的FC的输出activations，这里用到了p_dropout
         self.output = self.activation_fn(
             (1-self.p_dropout)*T.dot(self.inpt, self.w) + self.b)
+        # 利用计算得到的activations，计算lables
         self.y_out = T.argmax(self.output, axis=1)
+
+        # --有dropout的情况--
+        # 调用dropout_layer函数，计算对应于dropout情况下，该fcLayer的输入neurons
         self.inpt_dropout = dropout_layer(
             inpt_dropout.reshape((mini_batch_size, self.n_in)), self.p_dropout)
+        # 计算对应与dropout情况下，输入的neurons对应的输出
         self.output_dropout = self.activation_fn(
             T.dot(self.inpt_dropout, self.w) + self.b)
 
+    # 计算FullyConnectedLayer的精度
     def accuracy(self, y):
-        "Return the accuracy for the mini-batch."
+        """Return the accuracy for the mini-batch.
+        调用了theano的tensor模块中的mean函数和eq函数
+        """
         return T.mean(T.eq(y, self.y_out))
 
 class SoftmaxLayer(object):
-
+    # SoftmaxLayer类的构造函数
     def __init__(self, n_in, n_out, p_dropout=0.0):
         self.n_in = n_in
         self.n_out = n_out
